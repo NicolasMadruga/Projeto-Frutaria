@@ -3,82 +3,314 @@ package br.com.appFrutaria.service;
 import java.util.List;
 import java.util.ArrayList;
 
+import br.com.appFrutaria.model.Produto;
 import br.com.appFrutaria.model.Fruta;
-import br.com.appFrutaria.view.Atendente;
+import br.com.appFrutaria.model.Verdura;
+import br.com.appFrutaria.model.ProdutosLimpeza;
 
+import br.com.appFrutaria.view.Atendente;
 
 public class Prateleira
 	{
 		Atendente atendente;
-		ArrayList<Fruta> listaFruta;
-		int opcao;
+		ArrayList<Produto> listaProdutos;
+		private int opcao;
+
+		private int frutas;
+		private int verduras;
+		private int pLimpeza;
+
+		static int consultas;
 		
 		public Prateleira()
 		{
 			atendente = new Atendente();
-			listaFruta = new ArrayList<>();
+
+			listaProdutos = new ArrayList<>();
 		}
-		
+
+		public static int getConsultas()
+		{
+			return consultas;
+		}
+
 		public void gerenciarPrateleira(int opcao, Atendente atendente)
 		{
-			switch(opcao)
+			int totalConsultas = consultas;
+			consultas++;
+
+			atendente.contagemConsultas(totalConsultas);
+
+			if (opcao < 0 || opcao > 4)
 			{
-			case 1 :
-			{
-			String nome = atendente.frutaNome();
-			double preco = atendente.frutaPreco();
-			int quantidade = atendente.frutaQuantidade();
-			
-			Fruta fruta = new Fruta(nome, preco, quantidade);
-			listaFruta.add(fruta);
-			
-			break;
-			}
-			case 2:
-			{
-				for (Fruta fruta : listaFruta)
+				do
 				{
-					atendente.inspecionar(fruta);
+				opcao = atendente.erro();
+				} while(opcao < 0 || opcao > 4);
+			}
+
+			switch (opcao)
+			{
+			case 1:
+			{
+				int cadastro = atendente.cadastro();
+
+				if (cadastro < 1 || cadastro > 3)
+				{
+					atendente.erro();
 				}
+
+				if (cadastro == 1)
+				{
+					String nome = atendente.produtoNome();
+					double preco = atendente.produtoPreco();
+					int quantidade = atendente.produtoQuantidade();
+
+					Produto fruta = new Fruta(nome, preco, quantidade);
+					listaProdutos.add(fruta);
+
+					frutas++;
+				} 
+				else if (cadastro == 2)
+				{
+					String nome = atendente.produtoNome();
+					double preco = atendente.produtoPreco();
+					int quantidade = atendente.produtoQuantidade();
+
+					Produto verdura = new Verdura(nome, preco, quantidade);
+					listaProdutos.add(verdura);
+
+					verduras++;
+				} 
+				else if (cadastro == 3)
+				{
+					String nome = atendente.produtoNome();
+					double preco = atendente.produtoPreco();
+					int quantidade = atendente.produtoQuantidade();
+
+					Produto limpeza = new ProdutosLimpeza(nome, preco, quantidade);
+					listaProdutos.add(limpeza);
+
+					verduras++;
+				}
+
+				break;
+			}
+			case 2: 
+			{
+				int inspecao = atendente.inspecao();
+
+				if (inspecao < 0 || inspecao > 3)
+				{
+					atendente.erro();
+				}
+
+				if (listaProdutos.isEmpty())
+				{
+					atendente.listaVazia();
+				}
+
+				switch (inspecao)
+				{
+				case 1: 
+				{
+					if (frutas == 0)
+					{
+						atendente.listaVazia();
+					}
+					else
+					{
+						for (Produto p : listaProdutos)
+						{
+							if (p instanceof Fruta)
+							{
+								String msg = p.toString();
+								atendente.mostrarProduto(msg);
+							}
+						}
+					}
+
+					break;
+				}
+				case 2:
+				{
+					if (verduras == 0)
+					{
+						atendente.listaVazia();
+					}
+					else
+					{
+						for (Produto p : listaProdutos)
+						{
+							if (p instanceof Verdura)
+							{
+								String msg = p.toString();
+								atendente.mostrarProduto(msg);
+							}
+						}
+					}
+
+					break;
+				}
+
+				case 3:
+				{
+					if (pLimpeza == 0)
+					{
+						atendente.listaVazia();
+					} 
+					else
+					{
+						for (Produto p : listaProdutos)
+						{
+							if (p instanceof ProdutosLimpeza)
+							{
+								String msg = p.toString();
+								atendente.mostrarProduto(msg);
+							}
+						}
+					}
+
+					break;
+				}
+				}
+
 				break;
 			}
 			case 3:
 			{
-				String nome = atendente.removerFruta();
-				boolean removido = false;
+				int remocao = atendente.remocao();
 				
-				for (int i = 0; i < listaFruta.size(); i++)
+				
+				if (frutas == 0)
 				{
-					if(listaFruta.get(i).getNome().equalsIgnoreCase(nome))
+					atendente.listaVazia();
+				}
+				else if (remocao == 1)
+				{
+					
+					String nome = atendente.produtoNome();
+					
+					for (int i = 0; i < listaProdutos.size(); i++)
 					{
-						listaFruta.remove(i);
-						removido = true;
-						break;
+						if (listaProdutos.get(i).getNome().equalsIgnoreCase(nome))
+						{
+							listaProdutos.remove(i);
+						}
+					}
+				} 
+				
+				if (verduras == 0)
+				{
+					atendente.listaVazia();
+				}
+				else if (remocao == 2)
+				{
+					if (verduras == 0)
+					{
+						atendente.listaVazia();
+					}
+					
+					String nome = atendente.produtoNome();
+					
+					for (int i = 0; i < listaProdutos.size(); i++)
+					{
+						if (listaProdutos.get(i).getNome().equalsIgnoreCase(nome))
+						{
+							listaProdutos.remove(i);
+						}
+					}
+				} 
+				
+				if (pLimpeza == 0)
+				{
+					atendente.listaVazia();
+				}
+				else if (remocao == 3)
+				{
+					if (pLimpeza == 0)
+					{
+						atendente.listaVazia();
+					}
+					
+					String nome = atendente.produtoNome();
+					
+					for (int i = 0; i < listaProdutos.size(); i++)
+					{
+						if (listaProdutos.get(i).getNome().equalsIgnoreCase(nome))
+						{
+							listaProdutos.remove(i);
+						}
 					}
 				}
+
+				break;
 			}
-			
-			case 4:
+
+			case 4: 
 			{
-				String nomeFruta = atendente.frutaNome();
-				
-				for (Fruta fruta : listaFruta)
+				int busca = atendente.busca();
+
+				if (listaProdutos.isEmpty())
 				{
-					if (fruta.getNome().equalsIgnoreCase(nomeFruta))
+					atendente.listaVazia();
+				} 
+				else
+				{
+					if (busca == 1)
 					{
-						atendente.encontrado();
-						atendente.inspecionar(fruta);
-					}
-					else
+						if (frutas == 0)
+						{
+							atendente.listaVazia();
+						}
+						
+						for (Produto p : listaProdutos)
+						{
+							if (p instanceof Fruta f)
+							{
+								atendente.inspecionarFruta(f);
+							}
+						}
+					} 
+					else if (busca == 2)
 					{
-						atendente.nEncontrado();
+						if (verduras == 0)
+						{
+							atendente.listaVazia();
+						}
+						
+						for (Produto p : listaProdutos)
+						{
+							if (p instanceof Verdura v)
+							{
+								atendente.inspecionarVerdura(v);
+							}
+						}
+					} 
+					else if (busca == 3)
+					{
+						if (pLimpeza == 0)
+						{
+							atendente.listaVazia();
+						}
+						
+						for (Produto p : listaProdutos)
+						{
+							if (p instanceof ProdutosLimpeza pl)
+							{
+								atendente.inspecionarProdutoLimpeza(pl);
+							}
+						}
 					}
 				}
+
+				break;
 			}
 			
-			case 0:
+			case 0: 
 			{
-				atendente.encerrar();//
+				atendente.encerrar();
+				break;
 			}
 			}
 		}
