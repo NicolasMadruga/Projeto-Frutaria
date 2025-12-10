@@ -61,8 +61,9 @@ public class Produto
 			return codigo;
 		}
 		
+		@Override
 		public String toString()
 		{
-			return "Nome: " + nome + "\nPreco: " + preco + "\nQuantidade: " + quantidade;
+			return "Nome: " + nome + "\nPreco: " + preco + "\nQuantidade: " + quantidade + "\nCódigo: " + codigo;
 		}
 	}

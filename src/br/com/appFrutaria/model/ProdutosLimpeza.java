@@ -11,5 +11,6 @@ public class ProdutosLimpeza extends Produto
 		{
 			super(nome, preco, quantidade);
 		}
+
 		
 	}

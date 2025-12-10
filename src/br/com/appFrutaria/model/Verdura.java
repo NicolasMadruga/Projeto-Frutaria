@@ -15,6 +15,11 @@ public class Verdura extends Produto
 		{
 			super(nome, preco, quantidade);
 		}
-
+		
+		@Override
+		public String toString()
+		{
+			return "Nome: " + nome + "\nPreco: " + preco + "\nQuantidade: " + quantidade;
+		}
 		
 	}

@@ -268,7 +268,7 @@ public class Prateleira
 						{
 							if (p instanceof Fruta f)
 							{
-								atendente.inspecionarFruta(f);
+								atendente.inspecionarProduto(f);
 							}
 						}
 					} 
@@ -283,7 +283,7 @@ public class Prateleira
 						{
 							if (p instanceof Verdura v)
 							{
-								atendente.inspecionarVerdura(v);
+								atendente.inspecionarProduto(v);
 							}
 						}
 					} 
@@ -298,7 +298,7 @@ public class Prateleira
 						{
 							if (p instanceof ProdutosLimpeza pl)
 							{
-								atendente.inspecionarProdutoLimpeza(pl);
+								atendente.inspecionarProduto(pl);
 							}
 						}
 					}

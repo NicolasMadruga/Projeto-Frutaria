@@ -90,28 +90,9 @@ public class Atendente
 			
 		}
 		
-		public void inspecionarFruta(Produto fruta)
+		public void inspecionarProduto(Produto produto)
 		{
-			System.out.println("Nome da fruta: " + fruta.getNome());
-			System.out.println("Preco da fruta: " + fruta.getPreco());
-			System.out.println("Quantidade: " + fruta.getQuantidade());
-			System.out.println("Código: " + fruta.getCodigo());
-		}
-		
-		public void inspecionarVerdura(Produto verdura)
-		{
-			System.out.println("Nome da verdura: " + verdura.getNome());
-			System.out.println("Preco da verdura: " + verdura.getPreco());
-			System.out.println("Quantidade: " + verdura.getQuantidade());
-			System.out.println("Código: " + verdura.getCodigo());
-		}
-		
-		public void inspecionarProdutoLimpeza(Produto produtoLimpeza)
-		{
-			System.out.println("Nome do produto: " + produtoLimpeza.getNome());
-			System.out.println("Preco do produto: " + produtoLimpeza.getPreco());
-			System.out.println("Quantidade: " + produtoLimpeza.getQuantidade());
-			System.out.println("Código: " + produtoLimpeza.getCodigo());			
+			System.out.println(produto);
 		}
 		
 		public String removerFruta()
